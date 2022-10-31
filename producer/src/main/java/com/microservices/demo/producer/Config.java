@@ -38,7 +38,7 @@ public class Config {
     @Bean
     public NewTopic topic() {
         return TopicBuilder
-                .name("t.food.order")
+                .name("messagetopic")
                 .partitions(1)
                 .replicas(1)
                 .build();

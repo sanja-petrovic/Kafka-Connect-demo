@@ -17,10 +17,15 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+    environment:
+      DATABASE_URL: "jdbc:postgresql://db:5432/postgres"
+      DATABASE_USER: "postgres"
+      DATABASE_PW: "password"
     depends_on:
       - "kafka"
       - "zookeeper"
       - "kafdrop"
+      - db
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -59,3 +64,12 @@ services:
       KAFKA_BROKERCONNECT: "kafka:9092"
     depends_on:
       - "kafka"
+  db:
+    image: postgres:13.8
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./consumer/data/db/:/var/lib/postgresql/data

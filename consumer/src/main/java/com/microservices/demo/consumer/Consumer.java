@@ -25,7 +25,7 @@ public class Consumer {
         this.foodOrderService = foodOrderService;
     }
 
-    @KafkaListener(topics = orderTopic)
+    @KafkaListener(topics = orderTopic, groupId = "consumer")
     public void consumeMessage(String message) throws JsonProcessingException {
         log.info("message consumed {}", message);
 
