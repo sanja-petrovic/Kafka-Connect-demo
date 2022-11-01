@@ -24,8 +24,8 @@ public class Producer {
         this.objectMapper = objectMapper;
     }
 
-    public String sendMessage(FoodOrder foodOrder) throws JsonProcessingException {
-        String orderAsMessage = objectMapper.writeValueAsString(foodOrder);
+    public String sendMessage(FoodOrderRequestDto foodOrderRequest) throws JsonProcessingException {
+        String orderAsMessage = objectMapper.writeValueAsString(foodOrderRequest);
         kafkaTemplate.send(orderTopic, orderAsMessage);
 
         log.info("food order produced {}", orderAsMessage);

@@ -7,4 +7,5 @@ import lombok.Value;
 public class FoodOrderDto {
     String item;
     Double amount;
+    Double price;
 }

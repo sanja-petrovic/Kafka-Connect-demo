@@ -2,13 +2,9 @@ package com.microservices.demo.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -23,8 +19,13 @@ public class FoodOrderController {
     }
 
     @PostMapping
-    public String createFoodOrder(@RequestBody FoodOrder foodOrder) throws JsonProcessingException {
+    public void createFoodOrder(@RequestBody FoodOrderRequestDto dto) throws JsonProcessingException {
         log.info("create food order request received");
-        return foodOrderService.createFoodOrder(foodOrder);
+        foodOrderService.createFoodOrder(dto);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getOrderRequests() {
+        return ResponseEntity.ok(foodOrderService.getRequests());
     }
 }

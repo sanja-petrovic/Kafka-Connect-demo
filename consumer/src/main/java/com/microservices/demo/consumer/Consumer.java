@@ -30,8 +30,7 @@ public class Consumer {
         log.info("message consumed {}", message);
 
         FoodOrderDto foodOrderDto = objectMapper.readValue(message, FoodOrderDto.class);
-        FoodOrder foodOrder = modelMapper.map(foodOrderDto, FoodOrder.class);
-
+        FoodOrder foodOrder = new FoodOrder(foodOrderDto.getItem(), foodOrderDto.getAmount(), foodOrderDto.getPrice());
         foodOrderService.persistFoodOrder(foodOrder);
     }
 

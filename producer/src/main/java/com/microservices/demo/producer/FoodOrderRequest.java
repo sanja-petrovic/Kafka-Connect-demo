@@ -1,30 +1,30 @@
-package com.microservices.demo.consumer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+package com.microservices.demo.producer;
+
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
 @Entity
-@NoArgsConstructor
+@Table(name = "requests")
+@Getter
+@Setter
 @AllArgsConstructor
-public class FoodOrder {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+public class FoodOrderRequest {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String item;
     @Column
     private Double amount;
     @Column
+    private Double price;
+    @Column
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
-    @Column
-    private Double price;
 
-    public FoodOrder(String item, Double amount, Double price) {
+    public FoodOrderRequest(String item, Double amount, Double price) {
         this.item = item;
         this.amount = amount;
         this.price = price;
