@@ -5,6 +5,7 @@ import lombok.Value;
 @Data
 @Value
 public class FoodOrderDto {
+    Long id;
     String item;
     Double amount;
     Double price;

@@ -3,7 +3,6 @@ package com.microservices.demo.consumer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -13,15 +12,12 @@ import org.springframework.stereotype.Component;
 public class Consumer {
 
     private static final String orderTopic = "${topic.name}";
-
     private final ObjectMapper objectMapper;
-    private final ModelMapper modelMapper;
     private final FoodOrderService foodOrderService;
 
     @Autowired
-    public Consumer(ObjectMapper objectMapper, ModelMapper modelMapper, FoodOrderService foodOrderService) {
+    public Consumer(ObjectMapper objectMapper, FoodOrderService foodOrderService) {
         this.objectMapper = objectMapper;
-        this.modelMapper = modelMapper;
         this.foodOrderService = foodOrderService;
     }
 
@@ -29,9 +25,9 @@ public class Consumer {
     public void consumeMessage(String message) throws JsonProcessingException {
         log.info("message consumed {}", message);
 
-        FoodOrderDto foodOrderDto = objectMapper.readValue(message, FoodOrderDto.class);
-        FoodOrder foodOrder = new FoodOrder(foodOrderDto.getItem(), foodOrderDto.getAmount(), foodOrderDto.getPrice());
-        foodOrderService.persistFoodOrder(foodOrder);
+        RequestDto requestDto = objectMapper.readValue(message, RequestDto.class);
+        FoodOrder foodOrder = new FoodOrder(requestDto.getId(), requestDto.getItem(), requestDto.getAmount(), requestDto.getPrice());
+        foodOrderService.persistFoodOrder(foodOrder, requestDto.getReplyChannel());
     }
 
 }

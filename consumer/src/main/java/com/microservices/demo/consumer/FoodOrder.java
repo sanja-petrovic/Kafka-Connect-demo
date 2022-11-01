@@ -24,7 +24,8 @@ public class FoodOrder {
     @Column
     private Double price;
 
-    public FoodOrder(String item, Double amount, Double price) {
+    public FoodOrder(Long id, String item, Double amount, Double price) {
+        this.id = id;
         this.item = item;
         this.amount = amount;
         this.price = price;

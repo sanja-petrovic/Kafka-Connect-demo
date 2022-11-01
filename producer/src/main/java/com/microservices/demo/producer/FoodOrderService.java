@@ -20,9 +20,10 @@ public class FoodOrderService {
         this.repository = repository;
     }
 
-    public void createFoodOrder(FoodOrderRequestDto dto) throws JsonProcessingException {
-        producer.sendMessage(dto);
+    public void createFoodOrder(FoodOrderDto dto) throws JsonProcessingException {
         FoodOrderRequest request = new FoodOrderRequest(dto.getItem(), dto.getAmount(), dto.getPrice());
+        RequestDto requestDto = new RequestDto(request.getId(), dto.getItem(), dto.getAmount(), dto.getPrice());
+        producer.sendMessage(requestDto);
         repository.save(request);
     }
 

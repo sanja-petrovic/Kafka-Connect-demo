@@ -19,7 +19,7 @@ public class FoodOrderController {
     }
 
     @PostMapping
-    public void createFoodOrder(@RequestBody FoodOrderRequestDto dto) throws JsonProcessingException {
+    public void createFoodOrder(@RequestBody FoodOrderDto dto) throws JsonProcessingException {
         log.info("create food order request received");
         foodOrderService.createFoodOrder(dto);
     }
