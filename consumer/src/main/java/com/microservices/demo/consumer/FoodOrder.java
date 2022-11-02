@@ -1,19 +1,19 @@
 package com.microservices.demo.consumer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.UUID;
 
-@Data
+@Table(name = "food_orders")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class FoodOrder {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    private UUID id;
     @Column
     private String item;
     @Column
@@ -24,7 +24,7 @@ public class FoodOrder {
     @Column
     private Double price;
 
-    public FoodOrder(Long id, String item, Double amount, Double price) {
+    public FoodOrder(UUID id, String item, Double amount, Double price) {
         this.id = id;
         this.item = item;
         this.amount = amount;

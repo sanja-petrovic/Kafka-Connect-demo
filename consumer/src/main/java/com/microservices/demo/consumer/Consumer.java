@@ -21,10 +21,9 @@ public class Consumer {
         this.foodOrderService = foodOrderService;
     }
 
-    @KafkaListener(topics = orderTopic, groupId = "consumer")
+    @KafkaListener(topics = orderTopic, groupId = "orders")
     public void consumeMessage(String message) throws JsonProcessingException {
         log.info("message consumed {}", message);
-
         RequestDto requestDto = objectMapper.readValue(message, RequestDto.class);
         FoodOrder foodOrder = new FoodOrder(requestDto.getId(), requestDto.getItem(), requestDto.getAmount(), requestDto.getPrice());
         foodOrderService.persistFoodOrder(foodOrder, requestDto.getReplyChannel());

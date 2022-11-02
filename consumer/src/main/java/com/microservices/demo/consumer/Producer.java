@@ -11,10 +11,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class Producer {
-
-    @Value("${requests.topic.name}")
-    private String requestTopic;
-
     private final ObjectMapper objectMapper;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
@@ -24,9 +20,9 @@ public class Producer {
         this.objectMapper = objectMapper;
     }
 
-    public String sendMessage(ResponseDto responseDto) throws JsonProcessingException {
+    public String sendMessage(ResponseDto responseDto, String address) throws JsonProcessingException {
         String orderAsMessage = objectMapper.writeValueAsString(responseDto);
-        kafkaTemplate.send(responseDto.getReplyChannel(), orderAsMessage);
+        kafkaTemplate.send(address, orderAsMessage);
 
         log.info("food order response {}", orderAsMessage);
 

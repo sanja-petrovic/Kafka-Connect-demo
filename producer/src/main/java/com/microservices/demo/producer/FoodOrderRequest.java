@@ -1,8 +1,11 @@
 package com.microservices.demo.producer;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "requests")
@@ -12,8 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class FoodOrderRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id = UUID.randomUUID();
     @Column
     private String item;
     @Column

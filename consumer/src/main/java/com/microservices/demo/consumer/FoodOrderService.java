@@ -28,7 +28,7 @@ public class FoodOrderService {
         }
         foodOrder.setStatus(status);
         FoodOrder persistedFoodOrder = foodOrderRepository.save(foodOrder);
-        producer.sendMessage(new ResponseDto(foodOrder.getId(), status, replyChannel));
+        producer.sendMessage(new ResponseDto(foodOrder.getId(), status.toString()), replyChannel);
         log.info("food order persisted {}", persistedFoodOrder);
         log.info("count: {}", foodOrderRepository.findAll().size());
     }

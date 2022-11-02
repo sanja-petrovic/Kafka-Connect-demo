@@ -7,6 +7,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      DATABASE_URL: "jdbc:postgresql://db:5432/postgres"
+      DATABASE_USER: "postgres"
+      DATABASE_PW: "password"
     depends_on:
       - "kafka"
       - "zookeeper"
@@ -72,4 +76,4 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:
-      - ./consumer/data/db/:/var/lib/postgresql/data
+      - ./data/db/:/var/lib/postgresql/data
