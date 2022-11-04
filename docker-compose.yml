@@ -69,7 +69,7 @@ services:
     depends_on:
       - "kafka"
   db:
-    image: postgres:13.8
+    image: debezium/postgres:13
     ports:
       - "5432:5432"
     environment:
@@ -77,3 +77,22 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./data/db/:/var/lib/postgresql/data
+  connect:
+    image: debezium/connect
+    ports:
+      - 8083:8083
+    environment:
+      GROUP_ID: 1
+      BOOTSTRAP_SERVERS: "kafka:9092"
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+    volumes:
+      - ./connectors:/scripts
+    command:
+      - bash
+      - -c
+      - |
+        /scripts/create-postgres-source.sh connect 8083 &
+        /docker-entrypoint.sh start
+
