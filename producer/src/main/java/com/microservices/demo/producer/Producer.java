@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Producer {
 
-    @Value("${topic.name}")
+    /*@Value("${topic.name}")
     private String orderTopic;
 
     private final ObjectMapper objectMapper;
@@ -31,5 +31,5 @@ public class Producer {
         log.info("food order produced {}", orderAsMessage);
 
         return "message sent";
-    }
+    }*/
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -22,9 +23,13 @@ public class Consumer {
     }
 
     @KafkaListener(topics = orderTopic, groupId = "orders")
-    public void consumeMessage(String message) throws JsonProcessingException {
+    public void consumeMessage(String message,
+                               @Header("correlation_id") String correlationID) throws JsonProcessingException {
         log.info("message consumed {}", message);
+        log.info("correlationID {}", correlationID);
+
         RequestDto requestDto = objectMapper.readValue(message, RequestDto.class);
+        log.info("request: {}", requestDto);
         FoodOrder foodOrder = new FoodOrder(requestDto.getId(), requestDto.getItem(), requestDto.getAmount(), requestDto.getPrice());
         foodOrderService.persistFoodOrder(foodOrder, requestDto.getReplyChannel());
     }

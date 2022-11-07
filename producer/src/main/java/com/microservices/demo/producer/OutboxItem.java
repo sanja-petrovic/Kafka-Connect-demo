@@ -1,9 +1,6 @@
 package com.microservices.demo.producer;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "outbox")
+@Table(name = "outbox_items")
 @AllArgsConstructor
 @NoArgsConstructor
 public class OutboxItem {
@@ -32,6 +29,7 @@ public class OutboxItem {
     @Column
     private String payload;
 
+    @Builder
     public OutboxItem(String aggregateType, String aggregateId, String type, Date timestamp, String correlationId, String payload) {
         this.aggregateType = aggregateType;
         this.aggregateId = aggregateId;
