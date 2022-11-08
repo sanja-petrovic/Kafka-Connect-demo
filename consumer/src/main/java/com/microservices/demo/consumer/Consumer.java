@@ -23,13 +23,12 @@ public class Consumer {
     }
 
     @KafkaListener(topics = orderTopic, groupId = "orders")
-    public void consumeMessage(String message,
+    public void consumeMessage(RequestDto requestDto,
                                @Header("correlation_id") String correlationID) throws JsonProcessingException {
-        log.info("message consumed {}", message);
+        log.info("message consumed {}", requestDto);
         log.info("correlationID {}", correlationID);
 
-        RequestDto requestDto = objectMapper.readValue(message, RequestDto.class);
-        log.info("request: {}", requestDto);
+        //RequestDto requestDto = objectMapper.readValue(message, RequestDto.class);
         FoodOrder foodOrder = new FoodOrder(requestDto.getId(), requestDto.getItem(), requestDto.getAmount(), requestDto.getPrice());
         foodOrderService.persistFoodOrder(foodOrder, requestDto.getReplyChannel());
     }
